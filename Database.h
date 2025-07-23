@@ -179,7 +179,6 @@ uint32_t *internal_node_key(void *node, uint32_t key_num);
 uint32_t get_node_max_key(void *node);
 bool is_node_root(void *node);
 void set_node_root(void *node, bool is_root);
-void print_tree(Pager *pager, uint32_t page_num, uint32_t space_level);
 Cursor *leaf_node_find(Table *table, uint32_t page_num, uint32_t key);
 Cursor *internal_node_find(Table *table, uint32_t page_num, uint32_t key);
 uint32_t internal_node_find_child(void *node, uint32_t key);
