@@ -246,44 +246,6 @@ static inline void indent(uint32_t level) {
   }
 }
 
-void print_tree(Pager *pager, uint32_t page_num, uint32_t space_level) {
-  void *node = get_page(pager, page_num);
-
-  switch (get_node_type(node)) {
-  case NODE_LEAF: {
-    uint32_t num_cells = *leaf_node_num_cells(node);
-    indent(space_level);
-    printf("leaf (size %d)\n", num_cells);
-    for (uint32_t i = 0; i < num_cells; i++) {
-      indent(space_level + 1);
-      printf("-> %d\n", *leaf_node_key(node, i));
-    }
-    break;
-  }
-  case NODE_INTERNAL: {
-    uint32_t num_keys = *internal_node_num_keys(node);
-    indent(space_level);
-    printf("internal (size %d)\n", num_keys);
-    if (num_keys > 0) {
-      for (uint32_t i = 0; i < num_keys; i++) {
-        uint32_t child_page_num = *internal_node_child(node, i);
-        print_tree(pager, child_page_num, space_level + 1);
-        indent(space_level + 1);
-        printf("-> key %d\n", *leaf_node_key(node, i));
-      }
-      uint32_t right_child_page_num = *internal_node_right_child(node);
-      print_tree(pager, right_child_page_num, space_level + 1);
-    }
-    break;
-  }
-  default: {
-    printf("Invalid node type while printing\n");
-    exit(EXIT_FAILURE);
-    break;
-  }
-  }
-}
-
 void internal_node_split_and_insert(Table *table, uint32_t parent_page_num,
                                     uint32_t child_page_num) {
   uint32_t old_page_num = parent_page_num;
