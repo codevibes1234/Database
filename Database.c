@@ -85,10 +85,6 @@ MetaCommandResult do_meta_command(InputBuffer *input_buffer, Table *table) {
     close_input_buffer(&input_buffer);
     db_close(table);
     return META_COMMAND_SUCCESS;
-  } else if (!strcmp((input_buffer->buffer), ".exit")) {
-    printf("B* Tree : \n");
-    print_tree(table->pager, table->root_page_num, 0);
-    return META_COMMAND_SUCCESS;
   } else {
     return META_COMMAND_UNRECOGNIZED_COMMAND;
   }
